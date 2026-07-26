@@ -23,6 +23,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("SphereShape3D_1nk24")
 
 [node name="MobDetector" type="Area3D" parent="." unique_id=1969357309]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.094507575, 0)
 collision_layer = 0
 collision_mask = 2
 monitorable = false
