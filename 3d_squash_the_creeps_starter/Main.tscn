@@ -3,6 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://ceuu150fmggvr" path="res://Player.tscn" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://clx5r0ig2ltr4" path="res://Main.cs" id="1_r0du0"]
 [ext_resource type="PackedScene" uid="uid://defdm2qdva75q" path="res://Mob.tscn" id="2_cm0pq"]
+[ext_resource type="FontFile" uid="uid://cyxhh7ddkn62q" path="res://fonts/Montserrat-Medium.ttf" id="4_cm0pq"]
+[ext_resource type="Script" uid="uid://b6yqacnxiq0jo" path="res://ScoreLabel.cs" id="5_fos0i"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1nk24"]
 size = Vector3(60, 2, 60)
@@ -23,6 +25,10 @@ _data = {
 "tilts": PackedFloat32Array(0, 0, 0, 0)
 }
 point_count = 4
+
+[sub_resource type="Theme" id="Theme_fos0i"]
+default_font = ExtResource("4_cm0pq")
+default_font_size = 22
 
 [node name="Main" type="Node" unique_id=596634192]
 script = ExtResource("1_r0du0")
@@ -75,11 +81,30 @@ mesh = SubResource("CylinderMesh_1nk24")
 curve = SubResource("Curve3D_glv2v")
 
 [node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath" unique_id=300656679]
-transform = Transform3D(0.007908812, -6.546111e-08, -0.9999684, 0, 1, -6.5463134e-08, 0.9999684, 5.1773597e-10, 0.007908812, -14.412322, -1.9073486e-06, -14.463725)
+transform = Transform3D(0.00790881, -6.546111e-08, -0.9999681, 0, 1, -6.546312e-08, 0.9999681, 5.1773597e-10, 0.00790881, -14.412322, -1.9073486e-06, -14.463725)
 
 [node name="MobTimer" type="Timer" parent="." unique_id=754634908]
 wait_time = 0.5
 autostart = true
+
+[node name="UserInterface" type="Control" parent="." unique_id=1545310502]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_fos0i")
+
+[node name="ScoreLabel" type="Label" parent="UserInterface" unique_id=932685308]
+layout_mode = 0
+offset_left = 46.0
+offset_top = 36.0
+offset_right = 134.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_cm0pq")
+theme_override_font_sizes/font_size = 22
+text = "Score: 0"
+script = ExtResource("5_fos0i")
 
 [connection signal="Hit" from="Player" to="." method="OnPlayerHit"]
 [connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]

@@ -24,10 +24,12 @@ public partial class Main : Node
 		var mobSpawnLocation = GetNode<PathFollow3D>("SpawnPath/SpawnLocation");
 		mobSpawnLocation.ProgressRatio = GD.Randf();
 
-		Vector3 playerPosition = GetNode<Player>("Player").Position;
+		var playerPosition = GetNode<Player>("Player").Position;
 		mob.Initialize(mobSpawnLocation.Position, playerPosition);
 		
 		AddChild(mob);
+
+		mob.Squashed += GetNode<ScoreLabel>("UserInterface/ScoreLabel").OnMobSquashed;
 	}
 
 	private void OnPlayerHit()
