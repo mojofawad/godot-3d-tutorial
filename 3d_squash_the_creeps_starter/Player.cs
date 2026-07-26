@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 namespace SquashTheCreeps3D;
@@ -9,6 +10,15 @@ public partial class Player : CharacterBody3D
 
     [Export]
     public int FallAcceleration { get; set; } = 75;
+    
+    [Export]
+    public int JumpImpulse { get; set; } = 20;
+
+    [Export]
+    public int BounceImpulse { get; set; } = 16;
+
+    [Signal]
+    public delegate void HitEventHandler();
 
     private Vector3 _targetVelocity = Vector3.Zero;
 
@@ -52,6 +62,38 @@ public partial class Player : CharacterBody3D
         }
 
         Velocity = _targetVelocity;
+
+        if (IsOnFloor() && Input.IsActionJustPressed("jump"))
+        {
+            _targetVelocity.Y = JumpImpulse;
+        }
+
+        for (var index = 0; index < GetSlideCollisionCount(); index++)
+        {
+            var collision = GetSlideCollision(index);
+
+            if (collision.GetCollider() is Mob mob)
+            {
+                if (Vector3.Up.Dot(collision.GetNormal()) > 0.1f)
+                {
+                     mob.Squash();
+                    _targetVelocity = Vector3.Zero;
+                    break;
+                }
+            }
+        }
+        
         MoveAndSlide();
+    }
+
+    private void Die()
+    {
+        EmitSignal(SignalName.Hit);
+        QueueFree();
+    }
+
+    private void OnMobDetectorBodyEntered(Node3D body)
+    {
+        Die();
     }
 }

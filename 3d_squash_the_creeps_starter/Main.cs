@@ -29,4 +29,9 @@ public partial class Main : Node
 		
 		AddChild(mob);
 	}
+
+	private void OnPlayerHit()
+	{
+		GetNode<Timer>("MobTimer").Stop();
+	}
 }
